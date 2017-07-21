@@ -14,8 +14,10 @@
 
 {% block app_navigation_items %}
  {% url 'nwm_example:home' as home_url %}
+ {% url 'nwm_example:medium_range' as medium_range_url %}
   <li class="title">Navigation</li>
   <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
+  <li class="{% if request.path == medium_range_url %}active{% endif %}"><a href="{{ medium_range_url }}">Medium Range Forecast</a></li>
 {% endblock %}
 
 {% block app_content %}

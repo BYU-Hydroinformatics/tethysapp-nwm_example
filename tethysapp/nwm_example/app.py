@@ -29,6 +29,11 @@ class NwmExample(TethysAppBase):
                 url='nwm-example',
                 controller='nwm_example.controllers.home'
             ),
+            UrlMap(
+                name='medium_range',
+                url='nwm-example/range/medium',
+                controller='nwm_example.controllers.medium_range'
+            ),
         )
 
         return url_maps
