@@ -40,9 +40,18 @@ def home(request):
         href=reverse('nwm_example:medium_range')
     )
 
+    short_range_button = Button(
+        display_text='Short Range',
+        name='short-range-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        href=reverse('nwm_example:short_range')
+    )
+
     context = {
         'nwm_example_map': nwm_example_map,
-        'medium_range_button': medium_range_button
+        'medium_range_button': medium_range_button,
+        'short_range_button': short_range_button
     }
 
     return render(request, 'nwm_example/home.html', context)
@@ -79,3 +88,36 @@ def medium_range(request):
     }
 
     return render(request, 'nwm_example/medium_range.html', context)
+
+
+def short_range(request):
+    """
+    Controller for the Short Range page.
+    """
+
+    dateraw = []
+    date1 = []
+    value1 = []
+    comid = '18228725'
+    config = 'short_range'
+    startdate = '2017-07-20'
+    enddate = '2017-07-21'
+    forecasttime = '12'
+    watermlstring = str(get_nwm_forecast(config, comid, startdate, enddate, forecasttime))
+    waterml = watermlstring.split('dateTimeUTC="')
+    waterml.pop(0)
+    for e in waterml:
+        parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
+        dateraw.append(parser[0])
+        value1.append(parser[1].split('<')[0])
+
+    for e in dateraw:
+        date1.append(dt.datetime.strptime(e, "%Y-%m-%dT%H:%M:%S"))
+
+    nwm_plot = PlotlyView([go.Scatter(x=date1, y=value1)])
+
+    context = {
+        'nwm_plot': nwm_plot
+    }
+
+    return render(request, 'nwm_example/short_range.html', context)
