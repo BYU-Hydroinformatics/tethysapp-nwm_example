@@ -1,0 +1,8 @@
+{% extends "nwm_example/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_content %}
+  <h1>National Water Model</h1>
+  <h2>Short Range Forecast</h2>
+  {% gizmo nwm_plot %}
+{% endblock %}
